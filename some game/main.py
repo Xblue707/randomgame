@@ -3,9 +3,9 @@ from pygame.locals import *
 from pygame import mixer
 from win32api import GetSystemMetrics
 
-wmul = GetSystemMetrics(0)/1920
-hmul = GetSystemMetrics(1)/1080
-print(wmul,hmul)
+wmul = GetSystemMetrics(0) / 1920
+hmul = GetSystemMetrics(1) / 1080
+print(wmul, hmul)
 
 
 class button:
@@ -15,7 +15,7 @@ class button:
         self.c1 = c1
         self.c2 = c2
         self.key = key
-        self.rect = pygame.Rect(self.x, self.y, 500*wmul, 50*hmul)
+        self.rect = pygame.Rect(self.x, self.y, 500 * wmul, 50 * hmul)
         self.handled = False
 
 
@@ -27,7 +27,7 @@ class maps:
         self.bpm = file.readline().strip("\n")[5:]
         self.artist = file.readline().strip("\n")[8:]
         self.col = (0, 0, 0, 128)
-        self.disp = pygame.Rect(25, 25, 1000*wmul, 250*hmul)
+        self.disp = pygame.Rect(25, 25, 1000 * wmul, 250 * hmul)
 
 
 # PYGAME INIT HERE
@@ -45,20 +45,20 @@ screen.fill((128, 128, 128))
 mixer.init()
 
 buttons = [
-    button(300*wmul, 900*hmul, (0, 0, 255), (0, 0, 0), pygame.K_LSHIFT),
-    button(1000*wmul, 900*hmul, (255, 0, 0), (0, 0, 0), pygame.K_RSHIFT),
-    button(300*wmul, 850*hmul, (0, 0, 192), (64, 64, 64), pygame.K_LSHIFT),
-    button(1000*wmul, 850*hmul, (192, 0, 0), (64, 64, 64), pygame.K_RSHIFT),
-    button(300*wmul, 950*hmul, (0, 0, 192), (64, 64, 64), pygame.K_LSHIFT),
-    button(1000*wmul, 950*hmul, (192, 0, 0), (64, 64, 64), pygame.K_RSHIFT),
+    button(300 * wmul, 900 * hmul, (0, 0, 255), (0, 0, 0), pygame.K_LSHIFT),
+    button(1000 * wmul, 900 * hmul, (255, 0, 0), (0, 0, 0), pygame.K_RSHIFT),
+    button(300 * wmul, 850 * hmul, (0, 0, 192), (64, 64, 64), pygame.K_LSHIFT),
+    button(1000 * wmul, 850 * hmul, (192, 0, 0), (64, 64, 64), pygame.K_RSHIFT),
+    button(300 * wmul, 950 * hmul, (0, 0, 192), (64, 64, 64), pygame.K_LSHIFT),
+    button(1000 * wmul, 950 * hmul, (192, 0, 0), (64, 64, 64), pygame.K_RSHIFT),
 ]
 
 mapss = []
 
-maps_list = os.listdir("C:/Users/Administrator/Documents/GitHub/randomgame/some game/maps")
+maps_list = os.listdir("./some game/maps")
 
 for m in maps_list:
-    directory = "C:/Users/Administrator/Documents/GitHub/randomgame/some game/maps/" + m
+    directory = "./some game/maps/" + m
     mapss.append(maps(directory))
 
 map_index = 0
@@ -74,7 +74,7 @@ map_index = 0
 
 played = 0
 state = 0
-f = open("C:/Users/Administrator/Documents/GitHub/randomgame/some game/settings.txt")
+f = open("./some game/settings.txt")
 settings = f.read().split()
 scroll_speed = int(settings[0])
 offset = int(settings[1])
@@ -114,22 +114,22 @@ while True:
         # displaying the maps
         bg_dir = mapss[map_index].directory + "/song_bg.png"
         bg = pygame.image.load(bg_dir)
-        bg = pygame.transform.scale(bg,(1280*wmul,720*hmul))
+        bg = pygame.transform.scale(bg, (1280 * wmul, 720 * hmul))
         screen.blit(bg, (0, 0))
         shape_surf = pygame.Surface(mapss[map_index].disp.size, pygame.SRCALPHA)
         pygame.draw.rect(shape_surf, mapss[map_index].col, shape_surf.get_rect())
         screen.blit(shape_surf, mapss[map_index].disp)
-        my_font = pygame.font.SysFont("Microsoft Jhenghei UI", int(60*hmul))
+        my_font = pygame.font.SysFont("Microsoft Jhenghei UI", int(60 * hmul))
         text_surface = my_font.render(mapss[map_index].name, False, (255, 255, 255))
-        screen.blit(text_surface, (50*hmul, 30*wmul))
+        screen.blit(text_surface, (50 * hmul, 30 * wmul))
         text_surface = my_font.render(
             "BPM: " + mapss[map_index].bpm, False, (255, 255, 255)
         )
-        screen.blit(text_surface, (50*hmul, 100*wmul))
+        screen.blit(text_surface, (50 * hmul, 100 * wmul))
         text_surface = my_font.render(
             "Artist: " + mapss[map_index].artist, False, (255, 255, 255)
         )
-        screen.blit(text_surface, (50*hmul, 170*wmul))
+        screen.blit(text_surface, (50 * hmul, 170 * wmul))
         my_font = pygame.font.SysFont("Microsoft Jhenghei UI", 15)
         text_surface = my_font.render(str(int(clock.get_fps())), False, (255, 255, 255))
         screen.blit(text_surface, (0, 0))
@@ -149,6 +149,18 @@ while True:
                 pygame.draw.rect(screen, key.c2, key.rect)
 
     elif state == 1:
+
+        # beat stuff (useless for now im too skill issue to code this)
+        bpm = int(mapss[map_index].bpm)
+        one_beat = 60 / bpm
+        two_beat = one_beat * 2
+        four_beat = one_beat * 4
+        half_beat = one_beat / 2
+        quarter_beat = one_beat / 4
+        eigth_beat = one_beat / 8
+        sixteenth_beat = one_beat / 16
+        third_beat = one_beat / 3
+
         screen.fill((128, 128, 128))
 
         # reading the chart
@@ -162,11 +174,11 @@ while True:
                     notes.append(
                         pygame.Rect(
                             buttons[x].rect.x,
-                            y * -(scroll_speed / 50 * 100)
+                            y * -scroll_speed * 1 / one_beat
                             - offset * 10
                             + buttons[x].rect.y,
-                            500*wmul,
-                            25*hmul,
+                            500 * wmul,
+                            25 * hmul,
                         )
                     )
         # initialize songs and stuff
@@ -175,17 +187,6 @@ while True:
         mixer.music.load(song_dir)
         mixer.music.set_volume(3)
         mixer.music.play()
-
-        # beat stuff (useless for now im too skill issue to code this)
-        # bpm = int(mapss[map_index].bpm)
-        # one_beat = 60 / bpm
-        # two_beat = one_beat * 2
-        # four_beat = one_beat * 4
-        # half_beat = one_beat / 2
-        # quarter_beat = one_beat / 4
-        # eigth_beat = one_beat / 8
-        # sixteenth_beat = one_beat / 16
-        # third_beat = one_beat / 3
 
         # testing purposes
         col = [(0, 0, 255), (255, 0, 0)]
@@ -196,16 +197,16 @@ while True:
         combo_count = 0
 
         while True:
-            clock.tick(60)
+            clock.tick(64)
             screen.fill((128, 128, 128))
             my_font = pygame.font.SysFont("Microsoft Jhenghei UI", 15)
             text_surface = my_font.render(
                 str(int(clock.get_fps())), False, (255, 255, 255)
             )
             screen.blit(text_surface, (0, 0))
-            my_font = pygame.font.SysFont("Microsoft Jhenghei UI", int(80*hmul))
+            my_font = pygame.font.SysFont("Microsoft Jhenghei UI", int(80 * hmul))
             text_surface = my_font.render(str(combo_count), False, (255, 255, 255))
-            screen.blit(text_surface, (900*wmul, 300*hmul))
+            screen.blit(text_surface, (900 * wmul, 300 * hmul))
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
@@ -236,7 +237,7 @@ while True:
                         b.handled = True
                         combo_count += 1
                         break
-                    if note.y > 1100*hmul:
+                    if note.y > 1100 * hmul:
                         notes.remove(note)
                         combo_count = 0
                         break
@@ -278,11 +279,14 @@ while True:
                         elif select_index == 1:
                             offset += 1
             if stopstop:
-                f = open("C:/Users/Administrator/Documents/GitHub/randomgame/some game/settings.txt", "w")
-                s = [scroll_speed,offset]
+                f = open(
+                    "./some game/settings.txt",
+                    "w",
+                )
+                s = [scroll_speed, offset]
                 txt = ""
                 for elem in s:
-                    txt+=str(elem)+"\n"
+                    txt += str(elem) + "\n"
                 f.write(txt)
                 f.close()
                 break
@@ -291,9 +295,9 @@ while True:
             text_surface = my_font.render(
                 "Scroll speed: " + str(scroll_speed), False, selected[0]
             )
-            screen.blit(text_surface, (100*wmul, 100*hmul))
+            screen.blit(text_surface, (100 * wmul, 100 * hmul))
             text_surface = my_font.render("Offset: " + str(offset), False, selected[1])
-            screen.blit(text_surface, (100*wmul, 200*hmul))
+            screen.blit(text_surface, (100 * wmul, 200 * hmul))
             pygame.display.update()
 
     else:
