@@ -1,0 +1,3 @@
+NAME: Goodbye Declaration
+BPM: 170
+ARTIST: Chinozo
