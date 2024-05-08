@@ -162,6 +162,7 @@ while True:
         third_beat = one_beat / 3
 
         screen.fill((128, 128, 128))
+        print(one_beat, 1 / one_beat)
 
         # reading the chart
         notes = []
@@ -197,7 +198,7 @@ while True:
         combo_count = 0
 
         while True:
-            clock.tick(64)
+            clock.tick(71)
             screen.fill((128, 128, 128))
             my_font = pygame.font.SysFont("Microsoft Jhenghei UI", 15)
             text_surface = my_font.render(
