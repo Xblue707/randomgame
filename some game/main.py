@@ -175,7 +175,7 @@ while True:
                     notes.append(
                         pygame.Rect(
                             buttons[x].rect.x,
-                            y * -scroll_speed * 1 / one_beat
+                            y * -scroll_speed*hmul * 1 / one_beat
                             - offset * 10
                             + buttons[x].rect.y,
                             500 * wmul,
@@ -231,7 +231,7 @@ while True:
 
             for note in notes:
                 pygame.draw.rect(screen, col[note.x > 500], note)
-                note.y += scroll_speed
+                note.y += scroll_speed*hmul
                 for b in buttons:
                     if b.rect.colliderect(note) and not b.handled:
                         notes.remove(note)
